@@ -1,76 +1,39 @@
-public class Owner {
+public class Owner extends Person {
 
-    private int ownerId;
-    private String name;
-    private String phone;
     private int numberOfPets;
-    private boolean frequentClient;
+    private boolean vip;
 
-    public Owner(int ownerId, String name, String phone, int numberOfPets, boolean frequentClient) {
-        this.ownerId = ownerId;
-        this.name = name;
-        this.phone = phone;
+    public Owner(int id, String name, String phone, int numberOfPets) {
+        super(id, name, phone);
         this.numberOfPets = numberOfPets;
-        this.frequentClient = frequentClient;
-    }
-
-    public Owner() {
-        this.ownerId = 0;
-        this.name = "Unknown";
-        this.phone = "Unknown";
-        this.numberOfPets = 0;
-        this.frequentClient = false;
-    }
-
-    public int getOwnerId() {
-        return ownerId;
-    }
-    public String getName() {
-        return name;
-    }
-    public String getPhone() {
-        return phone;
-    }
-    public int getNumberOfPets() {
-        return numberOfPets;
-    }
-    public boolean isFrequentClient() {
-        return frequentClient;
-    }
-
-    public void setOwnerId(int ownerId) {
-        this.ownerId = ownerId;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-    public void setNumberOfPets(int numberOfPets) {
-        this.numberOfPets = numberOfPets;
-    }
-    public void setFrequentClient(boolean frequentClient) {
-        this.frequentClient = frequentClient;
+        this.vip = numberOfPets >= 3;
     }
 
     public void addPet() {
         numberOfPets++;
         if (numberOfPets >= 3) {
-            frequentClient = true;
+            vip = true;
         }
     }
+
     public boolean isVIP() {
-        return frequentClient;
+        return vip;
+    }
+
+    @Override
+    public String getRole() {
+        return "Owner";
+    }
+
+    @Override
+    public void work() {
+        System.out.println(name + " takes care of pets.");
     }
 
     @Override
     public String toString() {
-        return "Owner{ownerId=" + ownerId +
-                ", name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
-                ", numberOfPets=" + numberOfPets +
-                ", frequentClient=" + frequentClient +
-                '}';
+        return super.toString() +
+                ", Pets: " + numberOfPets +
+                ", VIP: " + vip;
     }
 }
