@@ -1,43 +1,106 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class Main {
+
+    static Scanner scanner = new Scanner(System.in);
+    static ArrayList<Person> people = new ArrayList<>();
 
     public static void main(String[] args) {
 
-        System.out.println("=== Veterinary Clinic Management System ===\n");
+        int choice;
 
-        Pet pet1 = new Pet(1, "Buddy", "Dog", 1, "Ali");
-        Pet pet2 = new Pet(2, "Murka", "Cat", 8, "Aigerim");
-        Pet pet3 = new Pet();
+        do {
+            System.out.println("\n=== VETERINARY CLINIC SYSTEM ===");
+            System.out.println("1. Add Owner");
+            System.out.println("2. Add Veterinarian");
+            System.out.println("3. View All People");
+            System.out.println("4. Demonstrate Polymorphism");
+            System.out.println("5. View Veterinarians Only");
+            System.out.println("0. Exit");
+            System.out.print("Choose: ");
 
-        Owner owner1 = new Owner(101, "Ali", "+77001112233", 2, false);
-        Owner owner2 = new Owner();
+            choice = scanner.nextInt();
+            scanner.nextLine();
 
-        Veterinarian vet1 = new Veterinarian(201, "Dr. Smith", "Dog", 6, true);
-        Veterinarian vet2 = new Veterinarian();
+            switch (choice) {
+                case 1 -> addOwner();
+                case 2 -> addVeterinarian();
+                case 3 -> viewAll();
+                case 4 -> demonstratePolymorphism();
+                case 5 -> viewVetsOnly();
+                case 0 -> System.out.println("Goodbye!");
+                default -> System.out.println("Invalid option!");
+            }
 
-        System.out.println("--- PETS ---");
-        System.out.println(pet1);
-        System.out.println(pet2);
-        System.out.println(pet3);
+        } while (choice != 0);
+    }
 
-        System.out.println("\n--- OWNERS ---");
-        System.out.println(owner1);
-        System.out.println(owner2);
+    static void addOwner() {
+        System.out.print("ID: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
 
+        System.out.print("Name: ");
+        String name = scanner.nextLine();
+
+        System.out.print("Phone: ");
+        String phone = scanner.nextLine();
+
+        System.out.print("Number of pets: ");
+        int pets = scanner.nextInt();
+
+        people.add(new Owner(id, name, phone, pets));
+        System.out.println("Owner added!");
+    }
+
+    static void addVeterinarian() {
+        System.out.print("ID: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Name: ");
+        String name = scanner.nextLine();
+
+        System.out.print("Phone: ");
+        String phone = scanner.nextLine();
+
+        System.out.print("Specialization: ");
+        String spec = scanner.nextLine();
+
+        System.out.print("Experience years: ");
+        int exp = scanner.nextInt();
+
+        people.add(new Veterinarian(id, name, phone, spec, exp));
+        System.out.println("Veterinarian added!");
+    }
+
+    static void viewAll() {
+        if (people.isEmpty()) {
+            System.out.println("No data.");
+            return;
+        }
+
+        for (Person p : people) {
+            System.out.println(p);
+        }
+    }
+
+    static void demonstratePolymorphism() {
+        System.out.println("\n--- POLYMORPHISM DEMO ---");
+        for (Person p : people) {
+            p.work();
+        }
+    }
+
+    static void viewVetsOnly() {
         System.out.println("\n--- VETERINARIANS ---");
-        System.out.println(vet1);
-        System.out.println(vet2);
-
-        System.out.println("\n--- TESTING METHODS ---");
-        System.out.println(pet1.getName() + " life stage: " + pet1.getLifeStage());
-        System.out.println(pet2.getName() + " is young: " + pet2.isYoung());
-
-        owner1.addPet();
-        owner1.addPet();
-        System.out.println(owner1.getName() + " is VIP: " + owner1.isVIP());
-
-        System.out.println(vet1.getName() + " experienced: " + vet1.isExperienced());
-        System.out.println(vet1.getName() + " can treat cats: " + vet1.canTreat("Cat"));
-
-        System.out.println("\n=== Program Complete ===");
+        for (Person p : people) {
+            if (p instanceof Veterinarian) {
+                Veterinarian v = (Veterinarian) p;
+                System.out.println(v);
+                System.out.println("Experienced: " + v.isExperienced());
+            }
+        }
     }
 }
